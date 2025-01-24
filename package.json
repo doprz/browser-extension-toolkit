@@ -23,6 +23,7 @@
   "files": [
     "dist"
   ],
+  "types": "./dist/index.d.ts",
   "main": "./dist/browser-extension-toolkit.umd.js",
   "module": "./dist/browser-extension-toolkit.js",
   "exports": {

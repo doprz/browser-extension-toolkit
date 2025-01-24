@@ -8,7 +8,7 @@ A comprehensive toolkit for building type-safe browser extensions with robust me
 - 🔄 Background script proxy pattern
 - 🎯 Runtime validation
 - 📦 Modular handler system
-- 🚀 Built with Bun + Vite
+- 🚀 Built with Bun + Vite + TypeScript
 
 ## Installation
 
@@ -31,8 +31,7 @@ src/
 │   ├── proxy/
 │   │   ├── handlers/
 │   │   │   ├── index.ts       # Handler exports
-│   │   │   ├── tabs.ts        # Tab operations
-│   │   │   └── bookmarks.ts   # Bookmark operations
+│   │   │   └── tabs.ts        # Tab operations
 │   └── utils/
 │       └── testing.ts         # Test utilities
 ├── tests/
@@ -51,9 +50,14 @@ src/
 ### In your popup script:
 
 ```typescript
-import { MessagingProxy, MESSAGE_TYPES } from "browser-extension-toolkit";
+import type { MessageTypes } from "browser-extension-toolkit";
+import {
+  MESSAGE_TYPES,
+  MessagingProxy,
+  tabProxyHandlers,
+} from "browser-extension-toolkit";
 
-const proxy = new MessagingProxy("popup");
+const backgroundProxy = new MessagingProxy<MessageTypes>("popup");
 
 // Open a new tab
 const response = await proxy.sendProxyMessage(MESSAGE_TYPES.TAB.OPEN, {
@@ -64,9 +68,14 @@ const response = await proxy.sendProxyMessage(MESSAGE_TYPES.TAB.OPEN, {
 ### In your background script:
 
 ```typescript
-import { MessagingProxy, tabProxyHandlers } from "browser-extension-toolkit";
+import type { MessageTypes } from "browser-extension-toolkit";
+import {
+  MESSAGE_TYPES,
+  MessagingProxy,
+  tabProxyHandlers,
+} from "browser-extension-toolkit";
 
-const backgroundProxy = new MessagingProxy("background");
+const backgroundProxy = new MessagingProxy<MessageTypes>("background");
 
 // Register handlers
 backgroundProxy.registerProxyHandler(
@@ -84,10 +93,6 @@ The toolkit includes pre-built handlers for common operations:
 tabProxyHandlers.openTab;
 tabProxyHandlers.closeTab;
 tabProxyHandlers.updateTab;
-
-// Bookmark operations
-bookmarkProxyHandlers.createBookmark;
-bookmarkProxyHandlers.deleteBookmark;
 
 // Extension page operations
 extensionProxyHandlers.openOptionsPage;
