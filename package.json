@@ -1,0 +1,62 @@
+{
+  "name": "browser-extension-toolkit",
+  "version": "0.1.0",
+  "description": "A comprehensive toolkit for building type-safe browser extensions with robust messaging patterns",
+  "keywords": [
+    "browser-extension",
+    "firefox",
+    "chrome",
+    "messaging",
+    "typescript",
+    "proxy"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doprz/browser-extension-toolkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/doprz/browser-extension-toolkit/issues"
+  },
+  "author": "doprz",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/browser-extension-toolkit.umd.js",
+  "module": "./dist/browser-extension-toolkit.js",
+  "exports": {
+    ".": {
+      "import": "./dist/browser-extension-toolkit.js",
+      "require": "./dist/browser-extension-toolkit.umd.js"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "bun test",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "prepare": "husky install"
+  },
+  "peerDependencies": {
+    "webextension-polyfill": "^0.12.0"
+  },
+  "devDependencies": {
+    "@types/firefox-webext-browser": "^120.0.4",
+    "@types/node": "^22.10.10",
+    "@types/webextension-polyfill": "^0.12.1",
+    "@typescript-eslint/eslint-plugin": "^8.21.0",
+    "@typescript-eslint/parser": "^8.21.0",
+    "ajv": "^8.17.1",
+    "bun-types": "^1.2.0",
+    "eslint": "^9.18.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.11",
+    "vite-plugin-dts": "^4.5.0"
+  },
+  "dependencies": {}
+}
