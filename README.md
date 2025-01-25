@@ -5,6 +5,7 @@ A comprehensive toolkit for building type-safe browser extensions with robust me
 ## Features
 
 - 🔒 Type-safe messaging system
+- 💾 Storage management system
 - 🔄 Background script proxy pattern
 - 🎯 Runtime validation
 - 📦 Modular handler system
@@ -28,6 +29,10 @@ src/
 │   │   ├── interfaces.ts      # Operation interfaces
 │   │   ├── constants.ts       # Message type constants
 │   │   └── messenger.ts       # MessagingProxy class
+│   ├── storage/               # Storage system
+│   │   ├── types.ts           # Storage type definitions
+│   │   ├── storage.ts         # ExtensionStorage class
+│   │   └── decorators.ts      # Storage decorators
 │   ├── proxy/
 │   │   ├── handlers/
 │   │   │   ├── index.ts       # Handler exports
@@ -35,27 +40,25 @@ src/
 │   └── utils/
 │       └── testing.ts         # Test utilities
 ├── tests/
-│   ├── setup.ts              # Test configuration
-│   ├── messenger.test.ts     # Core tests
-│   └── handlers.test.ts      # Handler tests
+│   ├── setup.ts               # Test configuration
+│   ├── messenger.test.ts      # Core tests
+│   └── handlers.test.ts       # Handler tests
 └── examples/
     ├── popup/
-    │   └── messaging.ts      # Popup usage example
+    │   └── messaging.ts       # Popup usage example
     └── background/
-        └── setup.ts          # Background setup example
+        └── setup.ts           # Background setup example
 ```
 
 ## Quick Start
+
+### Messaging
 
 ### In your popup script:
 
 ```typescript
 import type { MessageTypes } from "browser-extension-toolkit";
-import {
-  MESSAGE_TYPES,
-  MessagingProxy,
-  tabProxyHandlers,
-} from "browser-extension-toolkit";
+import { MESSAGE_TYPES, MessagingProxy } from "browser-extension-toolkit";
 
 const backgroundProxy = new MessagingProxy<MessageTypes>("popup");
 
@@ -114,6 +117,69 @@ const customHandler: MessageHandler<InputType, OutputType> = async (
   // Implementation
   return result;
 };
+```
+
+## Storage
+
+```typescript
+// Define your storage schema
+interface UserPreferences {
+  theme: "light" | "dark";
+  fontSize: number;
+  notifications: boolean;
+}
+
+// Using ExtensionStorage class
+const storage = new ExtensionStorage<UserPreferences>({
+  area: "sync",
+  prefix: "prefs",
+});
+
+await storage.set("theme", "dark");
+const theme = await storage.get("theme");
+
+// Listen for changes
+storage.addChangeListener((changes) => {
+  if ("theme" in changes) {
+    console.log("Theme changed:", changes.theme.newValue);
+  }
+});
+
+// Using decorators
+class Settings {
+  @persist({ area: "sync", prefix: "settings" })
+  public theme!: "light" | "dark";
+
+  @persist({ area: "local", prefix: "settings" })
+  public fontSize!: number;
+}
+```
+
+## Advanced Storage Usage
+
+```typescript
+// Namespace isolation
+const userStorage = new ExtensionStorage<UserData>({ prefix: "user" });
+const settingsStorage = new ExtensionStorage<Settings>({ prefix: "settings" });
+
+// Batch operations
+const allSettings = await settingsStorage.getAll();
+
+// Area-specific storage
+const syncStorage = new ExtensionStorage<SyncData>({ area: "sync" });
+const localStorage = new ExtensionStorage<LocalData>({ area: "local" });
+
+// With serialization control
+const rawStorage = new ExtensionStorage<RawData>({
+  serialize: false,
+});
+
+// Change detection
+storage.addChangeListener(async (changes, area) => {
+  for (const [key, { oldValue, newValue }] of Object.entries(changes)) {
+    console.log(`${key} changed in ${area}:`, { oldValue, newValue });
+  }
+});
 ```
 
 ## Documentation
