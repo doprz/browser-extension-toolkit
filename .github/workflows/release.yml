@@ -31,4 +31,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           HUSKY: 0 # Disables Husky completely during release
+          GIT_AUTHOR_NAME: "doprz"
+          GIT_AUTHOR_EMAIL: "52579214+doprz@users.noreply.github.com"
+          GIT_COMMITTER_NAME: "doprz"
+          GIT_COMMITTER_EMAIL: "52579214+doprz@users.noreply.github.com"
         run: bunx semantic-release
