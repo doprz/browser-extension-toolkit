@@ -1,3 +1,11 @@
+# [0.4.0](https://github.com/doprz/browser-extension-toolkit/compare/v0.3.0...v0.4.0) (2025-01-25)
+
+
+### Features
+
+* **build:** add @semantic-release/github ([4655b5c](https://github.com/doprz/browser-extension-toolkit/commit/4655b5c691e100de21ac02ad21bb1c74921df821))
+* **build:** add Git environment variables to semantic release workflow ([f45e618](https://github.com/doprz/browser-extension-toolkit/commit/f45e618cbe987f3fca03620a0ecb3263932b6db3))
+
 # [0.3.0](https://github.com/doprz/browser-extension-toolkit/compare/v0.2.1...v0.3.0) (2025-01-25)
 
 
