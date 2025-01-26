@@ -1,3 +1,10 @@
+# [0.5.0](https://github.com/doprz/browser-extension-toolkit/compare/v0.4.0...v0.5.0) (2025-01-26)
+
+
+### Features
+
+* **storage:** add bulk operations ([848029d](https://github.com/doprz/browser-extension-toolkit/commit/848029df9f9554d7225d429d1e1f8bfeb373a232))
+
 # [0.4.0](https://github.com/doprz/browser-extension-toolkit/compare/v0.3.0...v0.4.0) (2025-01-25)
 
 
