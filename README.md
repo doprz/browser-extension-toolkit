@@ -135,6 +135,19 @@ const storage = new ExtensionStorage<UserPreferences>({
   prefix: "prefs",
 });
 
+// Set multiple values in storage at once
+await storage.bulkSet({ theme: "light", fontSize: 12, notifications: true });
+
+// Set multiple values and remove others atomically
+await store.bulkUpdate({
+  set: {
+    theme: "dark",
+    fontSize: 16,
+  },
+  remove: ["notifications"],
+});
+
+// Set and get values with type safety
 await storage.set("theme", "dark");
 const theme = await storage.get("theme");
 

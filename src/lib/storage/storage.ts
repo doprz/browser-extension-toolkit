@@ -82,6 +82,37 @@ export class ExtensionStorage<T extends Record<string, unknown>> {
   }
 
   /**
+   * Set multiple values in storage at once
+   */
+  public async bulkSet(items: Partial<T>): Promise<void> {
+    const entries = Object.entries(items).map(([key, value]) => [
+      this.getFullKey(key),
+      this.shouldSerialize ? this.serialize(value) : value,
+    ]);
+
+    await browser.storage[this.area].set(Object.fromEntries(entries));
+  }
+
+  /**
+   * Set multiple values and remove others atomically
+   */
+  public async bulkUpdate(options: {
+    set?: Partial<T>;
+    remove?: Array<keyof T>;
+  }): Promise<void> {
+    const { set, remove } = options;
+
+    if (set) {
+      await this.bulkSet(set);
+    }
+
+    if (remove?.length) {
+      const keysToRemove = remove.map((key) => this.getFullKey(key as string));
+      await browser.storage[this.area].remove(keysToRemove);
+    }
+  }
+
+  /**
    * Add a change listener
    */
   public addChangeListener(listener: StorageChangeListener<T>): void {
